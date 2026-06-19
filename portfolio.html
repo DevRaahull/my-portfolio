@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rahul Soni — Full Stack Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #090D1A;
+    --bg-2:      #0F1424;
+    --bg-card:   #131829;
+    --border:    rgba(99,102,241,0.15);
+    --accent:    #6366F1;
+    --accent-2:  #818CF8;
+    --accent-glow: rgba(99,102,241,0.25);
+    --text:      #E8EAEF;
+    --text-muted:#7B82A0;
+    --text-dim:  #3E4460;
+    --white:     #FFFFFF;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 60px;
+    background: rgba(9,13,26,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 20px; font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.5px;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--accent);
+    color: var(--white) !important;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-weight: 600 !important;
+    transition: background 0.2s, transform 0.15s !important;
+  }
+  .nav-cta:hover { background: var(--accent-2); transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 60px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg-glow {
+    position: absolute; top: -200px; right: -100px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .hero-bg-dots {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(var(--text-dim) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 780px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(99,102,241,0.12);
+    border: 1px solid rgba(99,102,241,0.3);
+    color: var(--accent-2);
+    font-size: 12px; font-weight: 600;
+    padding: 6px 14px; border-radius: 100px;
+    margin-bottom: 28px; letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .hero-badge::before {
+    content: ''; width: 6px; height: 6px;
+    background: var(--accent); border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+  .hero-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(48px, 6vw, 80px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .hero-name .accent-line {
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-role {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(18px, 2.5vw, 26px);
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+    letter-spacing: -0.3px;
+  }
+  .hero-desc {
+    max-width: 560px;
+    color: var(--text-muted);
+    font-size: 15.5px;
+    line-height: 1.75;
+    margin-bottom: 44px;
+  }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--white);
+    padding: 13px 28px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600; font-size: 14px;
+    letter-spacing: 0.2px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(99,102,241,0.35);
+  }
+  .btn-primary:hover { background: var(--accent-2); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(99,102,241,0.45); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    padding: 13px 28px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 500; font-size: 14px;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent-2); background: rgba(99,102,241,0.07); }
+  .hero-socials { display: flex; gap: 16px; margin-top: 48px; }
+  .social-chip {
+    display: flex; align-items: center; gap: 8px;
+    color: var(--text-muted); text-decoration: none; font-size: 13px;
+    font-weight: 500; transition: color 0.2s;
+    padding: 6px 0;
+  }
+  .social-chip svg { opacity: 0.6; transition: opacity 0.2s; }
+  .social-chip:hover { color: var(--white); }
+  .social-chip:hover svg { opacity: 1; }
+
+  /* ── SECTIONS ── */
+  section { padding: 100px 60px; }
+  .section-label {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 48px;
+  }
+  .section-label::before {
+    content: '';
+    width: 32px; height: 2px;
+    background: var(--accent);
+  }
+  .section-label h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent-2);
+  }
+  .section-heading {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: var(--white);
+    margin-bottom: 16px;
+    line-height: 1.15;
+  }
+  .section-sub {
+    color: var(--text-muted);
+    font-size: 15.5px;
+    max-width: 500px;
+    line-height: 1.7;
+    margin-bottom: 56px;
+  }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--bg-2); }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .skill-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    transition: border-color 0.25s, transform 0.2s;
+  }
+  .skill-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .skill-icon {
+    width: 40px; height: 40px;
+    background: rgba(99,102,241,0.12);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 16px;
+    font-size: 18px;
+  }
+  .skill-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px; font-weight: 600;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    background: rgba(99,102,241,0.1);
+    border: 1px solid rgba(99,102,241,0.2);
+    color: var(--accent-2);
+    font-size: 11.5px; font-weight: 500;
+    padding: 3px 10px; border-radius: 6px;
+    letter-spacing: 0.2px;
+  }
+
+  /* ── PROJECTS ── */
+  #projects { background: var(--bg); }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+  }
+  .project-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    position: relative;
+  }
+  .project-card:hover {
+    border-color: rgba(99,102,241,0.5);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 60px rgba(99,102,241,0.12);
+  }
+  .project-preview {
+    width: 100%; height: 200px;
+    position: relative; overflow: hidden;
+    background: var(--bg-2);
+  }
+  .project-preview iframe {
+    width: 200%; height: 200%;
+    transform: scale(0.5);
+    transform-origin: 0 0;
+    border: none;
+    pointer-events: none;
+    transition: opacity 0.4s;
+  }
+  .project-preview .preview-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, var(--bg-card));
+    z-index: 2;
+  }
+  .project-preview .preview-label {
+    position: absolute; top: 12px; right: 12px;
+    background: rgba(9,13,26,0.8);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 10px; font-weight: 600; color: var(--text-muted);
+    padding: 3px 8px; letter-spacing: 0.5px;
+    z-index: 3; text-transform: uppercase;
+  }
+  .project-body { padding: 24px; }
+  .project-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px; font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    opacity: 0.8;
+  }
+  .project-body h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px; font-weight: 700;
+    color: var(--white); letter-spacing: -0.3px;
+    margin-bottom: 10px;
+  }
+  .project-body p {
+    color: var(--text-muted);
+    font-size: 13.5px;
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+  .project-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 22px; }
+  .stack-tag {
+    background: rgba(15,20,36,0.8);
+    border: 1px solid var(--text-dim);
+    color: var(--text-muted);
+    font-size: 11px; font-weight: 500;
+    padding: 3px 9px; border-radius: 5px;
+  }
+  .project-links { display: flex; gap: 14px; }
+  .proj-link {
+    display: flex; align-items: center; gap: 6px;
+    text-decoration: none;
+    font-size: 12.5px; font-weight: 600;
+    color: var(--accent-2);
+    transition: color 0.2s;
+  }
+  .proj-link:hover { color: var(--white); }
+  .proj-link svg { width: 14px; height: 14px; }
+
+  /* github-only projects */
+  .project-preview.placeholder {
+    background: linear-gradient(135deg, #0F1424 0%, #131829 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .placeholder-icon {
+    font-size: 40px; opacity: 0.15;
+  }
+
+  /* ── EXPERIENCE ── */
+  #experience { background: var(--bg-2); }
+  .exp-item {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 40px;
+    padding: 40px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .exp-item:first-of-type { padding-top: 0; }
+  .exp-item:last-of-type { border-bottom: none; }
+  .exp-meta { }
+  .exp-period {
+    font-size: 12px; font-weight: 600; color: var(--accent-2);
+    letter-spacing: 0.5px; margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .exp-company {
+    font-size: 13px; color: var(--text-muted); font-weight: 400;
+  }
+  .exp-content h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 19px; font-weight: 700;
+    color: var(--white); margin-bottom: 14px;
+    letter-spacing: -0.3px;
+  }
+  .exp-content ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .exp-content li {
+    color: var(--text-muted); font-size: 14px; line-height: 1.65;
+    padding-left: 18px; position: relative;
+  }
+  .exp-content li::before {
+    content: '→';
+    position: absolute; left: 0;
+    color: var(--accent); font-size: 12px;
+  }
+
+  /* ── EDUCATION ── */
+  #education { background: var(--bg); }
+  .edu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .edu-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px; padding: 28px;
+    transition: border-color 0.25s;
+  }
+  .edu-card:hover { border-color: var(--accent); }
+  .edu-year {
+    font-size: 11px; font-weight: 700; color: var(--accent);
+    letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px;
+  }
+  .edu-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px; font-weight: 700; color: var(--white);
+    margin-bottom: 6px; letter-spacing: -0.2px;
+  }
+  .edu-card p { color: var(--text-muted); font-size: 13.5px; }
+
+  /* ── CERTS ── */
+  .cert-list { display: flex; flex-direction: column; gap: 14px; margin-top: 40px; }
+  .cert-item {
+    display: flex; align-items: center; gap: 16px;
+    padding: 18px 22px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: border-color 0.25s;
+  }
+  .cert-item:hover { border-color: var(--accent); }
+  .cert-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent); flex-shrink: 0;
+  }
+  .cert-item span { color: var(--text-muted); font-size: 14px; }
+  .cert-item strong { color: var(--white); font-weight: 600; }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--bg-2);
+    text-align: center;
+  }
+  #contact .section-label { justify-content: center; }
+  #contact .section-heading { text-align: center; }
+  .contact-card {
+    max-width: 580px;
+    margin: 0 auto;
+    padding: 56px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-card::before {
+    content: '';
+    position: absolute; top: -60%; left: 50%; transform: translateX(-50%);
+    width: 400px; height: 300px;
+    background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .contact-card p {
+    color: var(--text-muted); font-size: 15px; line-height: 1.7;
+    margin-bottom: 36px; position: relative;
+  }
+  .contact-links { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; position: relative; }
+  .contact-link {
+    display: flex; align-items: center; gap: 8px;
+    text-decoration: none; padding: 11px 22px;
+    border: 1px solid var(--border); border-radius: 10px;
+    font-size: 13.5px; font-weight: 500; color: var(--text-muted);
+    background: var(--bg-2);
+    transition: all 0.2s;
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--white); background: rgba(99,102,241,0.08); }
+  .email-link {
+    background: var(--accent); color: var(--white) !important;
+    border-color: var(--accent) !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 20px rgba(99,102,241,0.3);
+  }
+  .email-link:hover { background: var(--accent-2) !important; box-shadow: 0 8px 30px rgba(99,102,241,0.4); }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 28px 60px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg);
+  }
+  footer p { color: var(--text-dim); font-size: 12.5px; }
+  footer a { color: var(--accent-2); text-decoration: none; }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.55s ease, transform 0.55s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section, #hero { padding: 80px 24px; }
+    .exp-item { grid-template-columns: 1fr; gap: 12px; }
+    footer { flex-direction: column; gap: 8px; text-align: center; }
+    .contact-card { padding: 36px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">RS<span>.</span></div>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact" class="nav-cta">Hire Me</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-glow"></div>
+  <div class="hero-bg-dots"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Available for opportunities</div>
+    <h1 class="hero-name">
+      Rahul<br>
+      <span class="accent-line">Soni.</span>
+    </h1>
+    <p class="hero-role">Full Stack Developer · Cloud &amp; Salesforce Enthusiast</p>
+    <p class="hero-desc">
+      MCA student at JECRC University with a passion for building fast, beautiful web applications. Experienced in React, Node.js, and AWS — now diving deep into the Salesforce ecosystem.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">View Projects ↓</a>
+      <a href="#contact" class="btn-ghost">Let's Connect →</a>
+    </div>
+    <div class="hero-socials">
+      <a href="https://github.com/DevRaahull" target="_blank" class="social-chip">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+        github.com/DevRaahull
+      </a>
+      <a href="https://www.linkedin.com/in/rahul-soni-5a465b287/" target="_blank" class="social-chip">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <a href="mailto:raahulsoni.2112@gmail.com" class="social-chip">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        raahulsoni.2112@gmail.com
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label"><h2>Expertise</h2></div>
+  <h2 class="section-heading">What I Work With</h2>
+  <p class="section-sub">A carefully built toolkit for building modern web applications, from frontend to cloud.</p>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <div class="skill-icon">⚡</div>
+      <h3>Frontend</h3>
+      <div class="skill-tags">
+        <span class="tag">React.js</span><span class="tag">JavaScript ES6+</span>
+        <span class="tag">HTML5</span><span class="tag">CSS3</span>
+        <span class="tag">Tailwind CSS</span><span class="tag">React Router</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🛠</div>
+      <h3>Backend</h3>
+      <div class="skill-tags">
+        <span class="tag">Node.js</span><span class="tag">Express.js</span>
+        <span class="tag">REST APIs</span><span class="tag">Python</span>
+        <span class="tag">MongoDB</span><span class="tag">MySQL</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">☁️</div>
+      <h3>Cloud &amp; DevOps</h3>
+      <div class="skill-tags">
+        <span class="tag">AWS EC2</span><span class="tag">AWS S3</span>
+        <span class="tag">AWS Lambda</span><span class="tag">Git</span>
+        <span class="tag">GitHub</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🧠</div>
+      <h3>Problem Solving</h3>
+      <div class="skill-tags">
+        <span class="tag">DSA</span><span class="tag">System Design</span>
+        <span class="tag">Arrays &amp; Trees</span><span class="tag">Dynamic Programming</span>
+        <span class="tag">Graph Traversal</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">📊</div>
+      <h3>Data Viz</h3>
+      <div class="skill-tags">
+        <span class="tag">Recharts</span><span class="tag">CoinGecko API</span>
+        <span class="tag">Real-time Dashboards</span><span class="tag">KPI Visualisation</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🔮</div>
+      <h3>Currently Learning</h3>
+      <div class="skill-tags">
+        <span class="tag">Salesforce ADM-201</span><span class="tag">Salesforce Platform</span>
+        <span class="tag">Trailhead</span><span class="tag">Cloud Computing</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label"><h2>Work</h2></div>
+  <h2 class="section-heading">Featured Projects</h2>
+  <p class="section-sub">Real-world applications built with modern tech stacks — click to explore live demos.</p>
+  <div class="projects-grid">
+
+    <!-- CryptoPulse -->
+    <div class="project-card reveal">
+      <div class="project-preview">
+        <iframe src="https://cryptopulse-umber.vercel.app/" title="CryptoPulse" loading="lazy" scrolling="no"></iframe>
+        <div class="preview-overlay"></div>
+        <div class="preview-label">Live</div>
+      </div>
+      <div class="project-body">
+        <div class="project-num">PROJECT 01</div>
+        <h3>CryptoPulse</h3>
+        <p>Real-time cryptocurrency dashboard that tracks 100+ coins using CoinGecko API with live price, volume, and trend metrics.</p>
+        <div class="project-stack">
+          <span class="stack-tag">React.js</span>
+          <span class="stack-tag">REST API</span>
+          <span class="stack-tag">CSS3</span>
+          <span class="stack-tag">JavaScript</span>
+        </div>
+        <div class="project-links">
+          <a href="https://cryptopulse-umber.vercel.app/" target="_blank" class="proj-link">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+            Live Demo
+          </a>
+          <a href="https://github.com/DevRaahull" target="_blank" class="proj-link">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flow25 -->
+    <div class="project-card reveal">
+      <div class="project-preview">
+        <iframe src="https://flow25.vercel.app/" title="Flow25" loading="lazy" scrolling="no"></iframe>
+        <div class="preview-overlay"></div>
+        <div class="preview-label">Live</div>
+      </div>
+      <div class="project-body">
+        <div class="project-num">PROJECT 02</div>
+        <h3>Flow25</h3>
+        <p>SaaS-style landing page with CSS keyframe animations, scroll-triggered effects, and 90+ Lighthouse score. 35% bundle reduction via code splitting.</p>
+        <div class="project-stack">
+          <span class="stack-tag">React.js</span>
+          <span class="stack-tag">CSS Animations</span>
+          <span class="stack-tag">Performance</span>
+          <span class="stack-tag">JavaScript</span>
+        </div>
+        <div class="project-links">
+          <a href="https://flow25.vercel.app/" target="_blank" class="proj-link">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+            Live Demo
+          </a>
+          <a href="https://github.com/DevRaahull" target="_blank" class="proj-link">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fintech Dashboard -->
+    <div class="project-card reveal">
+      <div class="project-preview">
+        <iframe src="https://finance-dashboard-steel-ten.vercel.app/" title="Fintech Dashboard" loading="lazy" scrolling="no"></iframe>
+        <div class="preview-overlay"></div>
+        <div class="preview-label">Live</div>
+      </div>
+      <div class="project-body">
+        <div class="project-num">PROJECT 03</div>
+        <h3>Fintech Dashboard</h3>
+        <p>Multi-view financial analytics platform with Overview, Transactions &amp; Analytics modules. Interactive charts for real-time KPI visualisation.</p>
+        <div class="project-stack">
+          <span class="stack-tag">React.js</span>
+          <span class="stack-tag">Recharts</span>
+          <span class="stack-tag">Tailwind CSS</span>
+          <span class="stack-tag">React Router</span>
+        </div>
+        <div class="project-links">
+          <a href="https://finance-dashboard-steel-ten.vercel.app/" target="_blank" class="proj-link">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+            Live Demo
+          </a>
+          <a href="https://github.com/DevRaahull" target="_blank" class="proj-link">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.11.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label"><h2>Experience</h2></div>
+  <h2 class="section-heading">Work History</h2>
+
+  <div class="exp-item reveal">
+    <div class="exp-meta">
+      <div class="exp-period">Nov – Dec 2023</div>
+      <div class="exp-company">Edureka</div>
+    </div>
+    <div class="exp-content">
+      <h3>Full Stack Development Intern</h3>
+      <ul>
+        <li>Built and maintained full-stack web apps using React.js, Node.js, Express.js, and MongoDB — delivering responsive UI and RESTful back-end services.</li>
+        <li>Developed dynamic front-end interfaces and integrated third-party APIs to extend application functionality.</li>
+        <li>Collaborated in Agile sprint cycles, participating in code reviews and delivering production-ready features on schedule.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION + CERTS -->
+<section id="education">
+  <div class="section-label"><h2>Education</h2></div>
+  <h2 class="section-heading">Academic Background</h2>
+  <div class="edu-grid">
+    <div class="edu-card reveal">
+      <div class="edu-year">2024 – 2026</div>
+      <h3>MCA — Cloud Computing</h3>
+      <p>JECRC University, Jaipur</p>
+    </div>
+    <div class="edu-card reveal">
+      <div class="edu-year">2020 – 2023</div>
+      <h3>BCA</h3>
+      <p>Glocal University &nbsp;·&nbsp; CGPA: 7.7</p>
+    </div>
+  </div>
+
+  <div style="margin-top: 72px;">
+    <div class="section-label"><h2>Certifications</h2></div>
+    <h2 class="section-heading">Achievements</h2>
+    <div class="cert-list">
+      <div class="cert-item reveal">
+        <div class="cert-dot"></div>
+        <span><strong>System Design Bootcamp</strong> &nbsp;—&nbsp; Brudite <span style="color:var(--text-dim); margin-left:8px;">May 2025</span></span>
+      </div>
+      <div class="cert-item reveal">
+        <div class="cert-dot"></div>
+        <span><strong>Full Stack Development</strong> &nbsp;—&nbsp; Edureka <span style="color:var(--text-dim); margin-left:8px;">April 2024</span></span>
+      </div>
+      <div class="cert-item reveal">
+        <div class="cert-dot"></div>
+        <span><strong>Smart India Hackathon 2025</strong> &nbsp;—&nbsp; Participant</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label"><h2>Contact</h2></div>
+  <h2 class="section-heading">Let's Build Something</h2>
+  <div class="contact-card reveal">
+    <p>I'm actively looking for full-time opportunities in Jaipur and open to remote work. Whether it's a product role or a Salesforce project — let's talk.</p>
+    <div class="contact-links">
+      <a href="mailto:raahulsoni.2112@gmail.com" class="contact-link email-link">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        Send Email
+      </a>
+      <a href="https://www.linkedin.com/in/rahul-soni-5a465b287/" target="_blank" class="contact-link">
+        <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/DevRaahull" target="_blank" class="contact-link">
+        <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+        GitHub
+      </a>
+      <a href="tel:+917073660571" class="contact-link">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
+        +91-70736 60571
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Rahul Soni · Built with care</p>
+  <p>Jaipur, Rajasthan, India</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
